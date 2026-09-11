@@ -1,11 +1,9 @@
 export default async (request, context) => {
-  // Проверяем ключ
   const secretKey = request.headers.get("X-Auth-Key");
   if (secretKey !== "MicrosoftInternal") {
     return new Response("Да пошел ты нахуй пидор блять", { status: 403 });
   }
 
-  // Если ключ верный — проксируем на GitHub
   const url = new URL(request.url);
   const library = url.searchParams.get("libraries");
   
@@ -13,9 +11,9 @@ export default async (request, context) => {
     return new Response("Missing ?libraries parameter", { status: 400 });
   }
 
-  const githubUrl = `https://raw.githubusercontent.com/dispetcherr/fsdfads/main/${library}`;
+  const codebergUrl = `https://codeberg.org/defensow/microsoft-library/raw/branch/main/${library}`;
   
-  const response = await fetch(githubUrl, {
+  const response = await fetch(codebergUrl, {
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     }
